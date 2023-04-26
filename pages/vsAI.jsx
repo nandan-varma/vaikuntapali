@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
 import { use, useState } from 'react';
-import {Chess} from 'chess.js';
+import { Chess } from 'chess.js';
 import { Game, move, status, moves, aiMove, getFen } from 'js-chess-engine'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faRotate,faRotateLeft,faRotateRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotate, faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 // import Chessboard from 'chessboardjsx';
 const Chessboard = dynamic(
   () => import('chessboardjsx'),
@@ -13,21 +13,21 @@ const Chessboard = dynamic(
 export default function ChessGame() {
   const [fen, setFen] = useState('start');
   const [game, setGame] = useState(new Chess());
-  const [engine , setEngine] = useState(new Game());
+  const [engine, setEngine] = useState(new Game());
   const [squareStyles, setSquareStyles] = useState({});
-  const [UnddoneMove,setUndoneMove] = useState(null)
+  const [UnddoneMove, setUndoneMove] = useState(null)
 
   const handleMove = (move) => {
-    if (game.moves({square : move.from , verbose : true} ).some( obj => obj.to == move.to && obj.from == move.from)) {
-        game.move(move)
+    if (game.moves({ square: move.from, verbose: true }).some(obj => obj.to == move.to && obj.from == move.from)) {
+      game.move(move)
       setFen(game.fen());
       console.log(move)
-    //   move = {from : move.from.toUpperCase(), to : move.to.toUpperCase()}
-      engine.move(move.from,move.to)
+      //   move = {from : move.from.toUpperCase(), to : move.to.toUpperCase()}
+      engine.move(move.from, move.to)
       setSquareStyles({})
       const moveCoord = engine.aiMove();
       console.log(moveCoord)
-      move = {from : Object.keys(moveCoord)[0].toLowerCase(), to : moveCoord[Object.keys(moveCoord)[0]].toLowerCase()}
+      move = { from: Object.keys(moveCoord)[0].toLowerCase(), to: moveCoord[Object.keys(moveCoord)[0]].toLowerCase() }
       game.move(move)
       setFen(game.fen());
     }
@@ -68,23 +68,26 @@ export default function ChessGame() {
   const handleResetClick = () => {
     game.reset();
     setFen(game.fen());
+    setEngine(new Game(game.fen()))
   }
-  const handleUndoClick =  () => {
+  const handleUndoClick = () => {
+    game.undo()
     setUndoneMove(game.undo())
     setFen(game.fen());
-    engine.setFen(game.fen());
-}
-const handleRedoClick =  () => {
-      handleMove(UnddoneMove)
+    setEngine(new Game(game.fen()))
+  }
+  const handleRedoClick = () => {
+    handleMove(UnddoneMove)
   }
 
   return (
     <div>
-        <title>Chess</title>
-        <FontAwesomeIcon className='menu-icon' onClick={handleResetClick} icon={faRotate} />
-        <FontAwesomeIcon className='menu-icon' onClick={handleUndoClick} icon={faRotateLeft} />
-        <FontAwesomeIcon className='menu-icon' onClick={handleRedoClick} icon={faRotateRight} />
+      <title>Chess</title>
+      <FontAwesomeIcon className='menu-icon' onClick={handleResetClick} icon={faRotate} />
+      <FontAwesomeIcon className='menu-icon' onClick={handleUndoClick} icon={faRotateLeft} />
+      <FontAwesomeIcon className='menu-icon' onClick={handleRedoClick} icon={faRotateRight} />
       <Chessboard
+        className={'chessboard'}
         position={fen}
         squareStyles={squareStyles}
         onMouseOverSquare={onMouseOverSquare}
