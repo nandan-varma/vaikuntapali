@@ -32,6 +32,7 @@ export default function Login() {
   return (
     <div>
       <h1>Login</h1>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"></link>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input

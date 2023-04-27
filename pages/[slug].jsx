@@ -39,7 +39,7 @@ export default function ChessGame() {
             ref.on('value', (snapshot) => {
                 if (snapshot.exists()) {
                     setData(snapshot.val());
-                    if(snapshot.val().createdBy == userid){setColor('w')}
+                    // if(snapshot.val().createdBy == userid){setColor('w')}
                 } else {
                     ref.set({ id: slug, FEN: fen , createdBy : userid });
                     setColor('w');

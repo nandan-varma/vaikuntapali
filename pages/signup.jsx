@@ -29,6 +29,7 @@ export default function Signup() {
   return (
     <div>
       <h1>Signup</h1>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"></link>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input
