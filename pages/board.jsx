@@ -76,9 +76,12 @@ export default function ChessGame() {
   return (
     <div>
       <title>Chess</title>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" , height: "10vh"}}>
       <FontAwesomeIcon className='menu-icon' onClick={handleResetClick} icon={faRotate} />
       <FontAwesomeIcon className='menu-icon' onClick={handleUndoClick} icon={faRotateLeft} />
       <FontAwesomeIcon className='menu-icon' onClick={handleRedoClick} icon={faRotateRight} />
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
       <Chessboard
         className={'chessboard'}
         position={fen}
@@ -105,6 +108,7 @@ export default function ChessGame() {
           }
         }}
       />
+      </div>
     </div>
   )
 }

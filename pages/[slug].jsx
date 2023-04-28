@@ -124,7 +124,11 @@ export default function ChessGame() {
                     <div>Creating game room...</div>
                 )}
             </div> */}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" , height: "10vh"}}>
             <FontAwesomeIcon className='menu-icon' onClick={handleResetClick} icon={faRotate} />
+            </div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+
             <Chessboard
                 position={fen}
                 squareStyles={squareStyles}
@@ -150,6 +154,7 @@ export default function ChessGame() {
                     }
                 }}
             />
+            </div>
         </div>
     )
 }

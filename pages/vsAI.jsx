@@ -2,8 +2,8 @@ import dynamic from 'next/dynamic';
 import { use, useState } from 'react';
 import { Chess } from 'chess.js';
 import { Game, move, status, moves, aiMove, getFen } from 'js-chess-engine'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRotate, faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartMixed, faRotate, faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 // import Chessboard from 'chessboardjsx';
 const Chessboard = dynamic(
   () => import('chessboardjsx'),
@@ -83,10 +83,19 @@ export default function ChessGame() {
   return (
     <div>
       <title>Chess</title>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" , height: "10vh"}}>
       <FontAwesomeIcon className='menu-icon' onClick={handleResetClick} icon={faRotate} />
       <FontAwesomeIcon className='menu-icon' onClick={handleUndoClick} icon={faRotateLeft} />
       <FontAwesomeIcon className='menu-icon' onClick={handleRedoClick} icon={faRotateRight} />
-      <Chessboard
+      <FontAwesomeIcon className='menu-icon' icon={faChartMixed} />
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" , color : "white" }}>
+      <Chessboard 
+      calcWidth={({ screenWidth, screenHeight }) => screenHeight * 0.8}
+      boardStyle={{
+        borderRadius: "5px",
+        boxShadow: `0 5px 15px rgba(255, 255, 255, 0.5)`
+      }}
         className={'chessboard'}
         position={fen}
         squareStyles={squareStyles}
@@ -112,6 +121,7 @@ export default function ChessGame() {
           }
         }}
       />
+      </div>
     </div>
   )
 }

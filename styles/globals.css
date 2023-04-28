@@ -1,6 +1,44 @@
+*{
+  margin : 0;
+  padding: 0;
+}
+
+html{
+  background-color: black;
+}
+
+.bgimage{
+  z-index : -50;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../public/background.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(5px);
+}
+
+.mainpage{
+  display: flex;
+  flex-direction: column;
+}
+
+.mainpage button{
+  background-color: whitesmoke;
+  cursor: pointer;
+  font-size: larger;
+  margin: 2vh 40vw;
+  width: 200px;
+  height: 10vh;
+  border: 2px solid gey;
+  border-radius: 24px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
 
 .menu-icon{
+  cursor: pointer;
+  filter: invert(1);
   height: 4vh;
   width: 4vw;
-  padding: 2vh 2vw;
+  padding: 1vh 1vw;
 }

@@ -7,7 +7,8 @@ function revisedRandId() {
 export default function Index(){
   return (
     <>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"></link>
+    <div className="bgimage"></div>
+    <div className="mainpage">
     <Link href={"/login"}><button>Log In</button></Link>
     <br></br><br></br>    
     <Link href={"/signup"}><button>Sign Up</button></Link>
@@ -17,6 +18,7 @@ export default function Index(){
     <Link href={"/"+revisedRandId()}><button>Play with friend</button></Link>
     <br></br><br></br>
     <Link href={"/board"}><button>Play Over Board</button></Link>
+    </div>
     </>
   )
 }
