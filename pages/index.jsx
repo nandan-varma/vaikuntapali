@@ -16,8 +16,6 @@ const buttonStyle = {
 const Index = () => {
   return (
     <>
-      <NavBar />
-
       <div
         style={{
           backgroundSize: "cover",
@@ -33,22 +31,6 @@ const Index = () => {
             padding: "20px",
           }}
         >
-          <Button style={buttonStyle} variant="contained" color="primary" component={Link} href={"/vsAI"}>
-            Play with AI
-          </Button>
-          <br />
-          <br />
-          <Button
-            style={buttonStyle}
-            variant="contained"
-            color="primary"
-            component={Link}
-            href={"/" + revisedRandId()}
-          >
-            Play with friend
-          </Button>
-          <br />
-          <br />
           <Button style={buttonStyle} variant="contained" color="primary" component={Link} href={"/board"}>
             Play Over Board
           </Button>
