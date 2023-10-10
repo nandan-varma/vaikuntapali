@@ -1,5 +1,7 @@
 import { CSSProperties, useEffect, useState } from "react";
 import {Background} from '../components/Background'
+import ladderImage from '../public/ladder.png';
+import snakeImage from '../public/ladder.png';
 
 interface PieceType {
     color: "red" | "green" | "blue";
@@ -60,6 +62,31 @@ export default function Board() {
         { color: "green", location: 6 },
         { color: "blue", location: 6 },
     ]);
+    const ObstacleImages: Record<string, string> = {
+        ladder: ladderImage,
+        snake: snakeImage
+    };
+
+    const ObstacleStyle: CSSProperties = {
+        position: 'absolute',
+        width: '100%',
+        height: '100%'
+    };
+
+    const renderObstacles = () => {
+        return ObstacleMap.map((obstacle, index) => {
+            const style: CSSProperties = {
+                ...ObstacleStyle,
+                backgroundImage: `url(${ObstacleImages[obstacle.type]})`,
+                backgroundSize: 'cover',
+                top: `${((h - Math.floor(obstacle.start / w)) * (100 / h))}%`,
+                left: `${((obstacle.start % w === 0 ? w : obstacle.start % w) - 1) * (100 / w)}%`
+            };
+            return (
+                <div key={index} style={style}></div>
+            );
+        });
+    };
     let ObstacleMap: Array<ObstacleType> = [
         { type: "ladder", start: 16, end: 28 },
         { type: "ladder", start: 19, end: 39 },
@@ -108,26 +135,28 @@ export default function Board() {
         ResetBoard(h,w);
     },[])
     return (
-        <div className="relative  bg-slate-600">
+        <div className="relative bg-slate-600">
             <div className="p-0 grid gap-0" style={GridCss}>
                 <>
-                {(board.length !== 0) &&
-                    board.map((i) => {
-                        return (
-                            <Block key={i} num={i} pieceList={pieces.filter((p: PieceType) => { return p.location == i })} />
+                    {(board.length !== 0) &&
+                        board.map((i) => {
+                            return (
+                                <Block key={i} num={i} pieceList={pieces.filter((p: PieceType) => { return p.location === i })} />
                             )
                         })
                     }
                 </>
-            {/* <Background board={board} h={h} w={w}/> */}
-            </div> 
+            </div>
+            {/* <div style={{ position: 'relative' }}>
+                {renderObstacles()}
+            </div> */}
             <button onClick={() => {
-                let d = Math.floor(1 + Math.random()*5)
+                let d = Math.floor(1 + Math.random() * 5)
                 UpdatePieceLocation("red", d);
                 console.log(d);
                 SetDie(d);
-                }}>Roll a die</button>
-                <p>{die}</p>
+            }}>Roll a die</button>
+            <p>{die}</p>
         </div>
     )
 }
