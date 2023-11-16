@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Button from "@mui/material/Button";
+import { useRouter } from "next/navigation";
 
 function revisedRandId() {
   return Math.random().toString(36).replace(/[^a-z]+/g, "").substr(2, 10);
@@ -14,6 +12,7 @@ const buttonStyle = {
 }
 
 const Index = () => {
+  const router = useRouter();
   return (
     <>
       <div
@@ -31,9 +30,9 @@ const Index = () => {
             padding: "20px",
           }}
         >
-          <Button style={buttonStyle} variant="contained" color="primary" component={Link} href={"/board"}>
+          <button onClick={()=>{router.push('/board')}}>
             Play Over Board
-          </Button>
+          </button>
         </div>
       </div>
     </>

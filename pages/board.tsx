@@ -1,7 +1,9 @@
 import { CSSProperties, useEffect, useState } from "react";
-import {Background} from '../components/Background'
+import { Background } from '../components/Background'
 import ladderImage from '../public/ladder.png';
 import snakeImage from '../public/ladder.png';
+import { Dice } from "@/components/Dice";
+import { StaticImageData } from "next/image";
 
 interface PieceType {
     color: "red" | "green" | "blue";
@@ -27,7 +29,7 @@ function Piece({ color }: PieceType) {
     }
     return (
         <>
-            <div className="h-2 w-2" style={PieceStyle}>
+            <div className="h-3 w-3" style={PieceStyle}>
             </div>
         </>
     )
@@ -37,7 +39,7 @@ function Block({ num, pieceList }: BlockType) {
     return (
         <>
             <div
-                className="h-10 w-10 bg-transparent text-center text-secondary">
+                className="h-12 w-12 bg-transparent text-center text-secondary rounded-md bg-slate-500 m-1">
                 <p>{num}</p>
                 {pieceList.length !== 0 &&
                     <div className="flex">{
@@ -54,15 +56,21 @@ function Block({ num, pieceList }: BlockType) {
 }
 
 export default function Board() {
-    let [board,SetBoard] = useState<Array<number>>([]);
-    let [die,SetDie] = useState<number>(0);
-    let [currentPlayer,SetCurrentPlayer]  = useState<"red"|"green"|"blue">("red");
+    let [board, SetBoard] = useState<Array<number>>([]);
+    let [die, SetDie] = useState<number>(0);
+    let players : Array<"red" | "green" | "blue"> = ["red","green","blue"];
+    let [currentPlayer, SetCurrentPlayer] = useState<number>(0);
     let [pieces, SetPieces] = useState<PieceType[]>([
         { color: "red", location: 6 },
         { color: "green", location: 6 },
         { color: "blue", location: 6 },
     ]);
-    const ObstacleImages: Record<string, string> = {
+
+    const UseDice = (num: number) => {
+        SetDie(num);
+    }
+
+    const ObstacleImages: Record<string, StaticImageData> = {
         ladder: ladderImage,
         snake: snakeImage
     };
@@ -115,8 +123,8 @@ export default function Board() {
     const GridCss: CSSProperties = {
         gridTemplateColumns: `repeat(${w},minmax(0,1fr))`,
     }
-    const ResetBoard = (h:number,w:number)=>{
-        let temp_board : Array<number> = [];
+    const ResetBoard = (h: number, w: number) => {
+        let temp_board: Array<number> = [];
         for (let x = h - 3; x > -1; x--) {
             if (invert) {
                 for (let y = 1; y < w + 1; y++) {
@@ -131,32 +139,38 @@ export default function Board() {
             SetBoard(temp_board);
         }
     }
-    useEffect(()=>{
-        ResetBoard(h,w);
-    },[])
+    useEffect(() => {
+        ResetBoard(h, w);
+    }, [])
+    useEffect(() => {
+        SetCurrentPlayer((currentPlayer+1)%players.length);
+        console.log(currentPlayer+1);
+    }, [die])
     return (
-        <div className="relative bg-slate-600">
-            <div className="p-0 grid gap-0" style={GridCss}>
-                <>
-                    {(board.length !== 0) &&
-                        board.map((i) => {
-                            return (
-                                <Block key={i} num={i} pieceList={pieces.filter((p: PieceType) => { return p.location === i })} />
-                            )
-                        })
-                    }
-                </>
-            </div>
-            {/* <div style={{ position: 'relative' }}>
+        <>
+            <div className="flex md:justify-evenly">
+                <div>
+                    <Dice useDice={UseDice} />
+                    <div>
+                        Current Turn :
+                        <div className="h-8 w-8 rounded-md" style={{backgroundColor: players[currentPlayer]}}></div>
+                    </div>
+                </div>
+                <div className="p-4 grid gap-0" style={GridCss}>
+                    <>
+                        {(board.length !== 0) &&
+                            board.map((i) => {
+                                return (
+                                    <Block key={i} num={i} pieceList={pieces.filter((p: PieceType) => { return p.location === i })} />
+                                )
+                            })
+                        }
+                    </>
+                </div>
+                {/* <div style={{ position: 'relative' }}>
                 {renderObstacles()}
             </div> */}
-            <button onClick={() => {
-                let d = Math.floor(1 + Math.random() * 5)
-                UpdatePieceLocation("red", d);
-                console.log(d);
-                SetDie(d);
-            }}>Roll a die</button>
-            <p>{die}</p>
-        </div>
+            </div>
+        </>
     )
 }
